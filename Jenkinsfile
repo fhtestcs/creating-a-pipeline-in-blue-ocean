@@ -55,6 +55,12 @@ pipeline {
       }
     }
 
+    stage('notify') {
+      steps {
+        catchError(catchInterruptions: true, buildResult: 'FAILURE', message: 'ERROR', stageResult: 'ERROR')
+      }
+    }
+
   }
   environment {
     node_compile = '192.168.100.1'
