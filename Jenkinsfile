@@ -5,12 +5,11 @@ pipeline {
       parallel {
         stage('build_code') {
           steps {
-            sh 'bootstrap && configure && make && make install'
-            sh 'rsync -az dist/ ${node_check_compile}:/'
-            waitUntil() {
-              sh 'build_code'
+            node(label: 'node_build') {
+              sh 'bootstrap && configure && make && make install'
             }
 
+            sh 'deploy code'
           }
         }
 
